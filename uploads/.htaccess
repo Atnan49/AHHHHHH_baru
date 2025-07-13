@@ -1,0 +1,22 @@
+# Protect uploads directory
+Order deny,allow
+Deny from all
+Allow from env=REDIRECT_STATUS
+
+# Only allow specific file types
+<FilesMatch "\.(jpg|jpeg|png|pdf)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Prevent execution of PHP files
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Security headers for uploaded files
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options nosniff
+    Header set Content-Disposition attachment
+</IfModule>
